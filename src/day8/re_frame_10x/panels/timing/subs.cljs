@@ -4,7 +4,8 @@
    [day8.re-frame-10x.tools.metamorphic                          :as metam]
    [day8.re-frame-10x.navigation.epochs.subs                     :as epochs.subs]
    [day8.re-frame-10x.panels.traces.subs                         :as traces.subs]
-   [day8.re-frame-10x.tools.coll                                 :as tools.coll]))
+   [day8.re-frame-10x.tools.coll                                 :as tools.coll]
+   [day8.re-frame-10x.tools.throttle                             :as throttle]))
 
 (rf/reg-sub
  ::total-epoch-time
@@ -97,4 +98,10 @@
  :<- [::traces.subs/filtered-by-epoch-always]
  (fn [traces]
    (seq traces)))
+
+(rf/reg-sub
+ ::throttle-stats
+ (fn [_]
+   {:buffer-size (throttle/buffer-size)
+    :dropped-count (throttle/dropped-count)}))
 

@@ -114,8 +114,12 @@
    {:cursor :pointer
     :background :none
     :border :none}]
-  [:svg :path
-   {:fill (if (= ambiance :bright) styles/nord0 styles/nord5)}])
+  [:svg
+   :width "9px !important"
+   :height "9px !important"
+   :path {:fill (if (= ambiance :bright)
+                  styles/nord0
+                  styles/nord5)}])
 
 (defn data-structure [_ path]
   (let [expanded? (rf/subscribe [::app-db.subs/node-expanded? path])]
@@ -150,7 +154,8 @@
                             (or (and node-expanded? (not (nil? expand?)))
                                 expand?))]
         [:span
-         {:class (jsonml-style)}
+         {:key (js/Date.now)
+          :class (jsonml-style)}
          [:span {:class    (toggle-style :bright)
                  :on-click #(do (rf/dispatch [::app-db.events/toggle-expansion indexed-path])
                                 (rf/dispatch [::app-db.events/expand {:id path-id :expand? false}]))}
