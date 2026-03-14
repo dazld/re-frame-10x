@@ -108,6 +108,13 @@
       :disabled? (not newer-epochs-available?)
       :on-click  #(rf/dispatch [::epochs.events/most-recent])}]))
 
+(defn clear-epochs-button
+  []
+  [buttons/icon
+   {:icon     [material/clear]
+    :title    "Clear all epochs"
+    :on-click #(rf/dispatch [::epochs.events/reset])}])
+
 (defn left-buttons
   []
   [rc/h-box
@@ -116,7 +123,8 @@
    :align    :center
    :children [[prev-button]
               [next-button]
-              [latest-button]]])
+              [latest-button]
+              [clear-epochs-button]]])
 
 (defn ambiance-button
   []

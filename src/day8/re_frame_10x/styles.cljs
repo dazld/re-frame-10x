@@ -64,7 +64,7 @@
 (def gs-131s (render-css gs-131))
 (def gs-212s (render-css gs-212))
 
-(def font-stack ["\"Segoe UI\"" "Roboto" "Helvetica" "sans-serif"])
+(def font-stack ["monospace"])
 
 (defpseudoclass -moz-focusring)
 (defpseudoelement -moz-focus-inner)

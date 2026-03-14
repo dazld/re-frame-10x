@@ -22,5 +22,6 @@
       {:features-to-install
        [:formatters :hints]}}}}
    :devtools
-   {:http-root "resources/public"
+   {:reload-strategy :full
+    :http-root "resources/public"
     :http-port 8280}}}}

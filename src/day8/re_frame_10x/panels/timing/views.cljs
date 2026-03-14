@@ -19,13 +19,12 @@
 
 (defn tag
   [{:keys [label time]}]
-  (let [ambiance @(rf/subscribe [::settings.subs/ambiance])]
-    [rc/v-box
-     :align    :center
-     :gap      styles/gs-5s
-     :children
-     [[rc/label :label label]
-      [data/tag {:class "timing-tag" :label (ms->str time)}]]]))
+  [rc/v-box
+   :align    :center
+   :gap      styles/gs-5s
+   :children
+   [[rc/label :label label]
+    [data/tag {:class "timing-tag" :label (ms->str time)}]]])
 
 (defclass section-style
   [ambiance]
@@ -57,6 +56,21 @@
        :label  "guide me to greatness"
        :target "_blank"
        :href   "https://github.com/day8/re-frame-10x/blob/master/docs/HyperlinkedInformation/UnderstandingTiming.md"]]]))
+
+(defn throttle-stats
+  []
+  (let [ambiance @(rf/subscribe [::settings.subs/ambiance])
+        throttle @(rf/subscribe [::timing.subs/throttle-stats])]
+    (when (or (> (:buffer-size throttle) 0) (> (:dropped-count throttle) 0))
+      [rc/h-box
+       :class (section-style ambiance)
+       :align :center
+       :gap styles/gs-12s
+       :children
+       [[rc/label :label "throttle"]
+        [rc/label :label (str "buffer: " (:buffer-size throttle) "/50")]
+        [:span "|"]
+        [rc/label :label (str "dropped: " (:dropped-count throttle))]]])))
 
 (defn event-processing
   []
@@ -141,6 +155,7 @@
        :class    (panel-style ambiance)
        :children
        [[elapsed]
+        [throttle-stats]
         [event-processing]
         [animation-frames]]]
       [rc/v-box
